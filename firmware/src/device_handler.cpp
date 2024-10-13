@@ -22,7 +22,7 @@ void DeviceHandler::init(WiFiHandler *wifi) {
   Serial.printf("  Board Name: LilyGo AMOLED %s\n", screen_.getName());
   Serial.println("=======================================\n");
 
-  const BoardsConfigure_t *config = screen_.getBoarsdConfigure();
+  const BoardsConfigure_t *config = screen_.getBoardsConfigure();
   if (config->buttonNum) {
     Serial.printf("Configuring %d device buttons\n", config->buttonNum);
     buttons_ = new AceButton[config->buttonNum];
@@ -65,7 +65,7 @@ void DeviceHandler::set_screen_status_callback(
 }
 
 void DeviceHandler::button_check_task() {
-  const BoardsConfigure_t *config = screen_.getBoarsdConfigure();
+  const BoardsConfigure_t *config = screen_.getBoardsConfigure();
   while (true) {
     for (int i = 0; i < config->buttonNum; ++i) buttons_[i].check();
     delay(5);
@@ -94,7 +94,7 @@ void DeviceButtonEventHandler::handleEvent(AceButton *button,
 
       Serial.println("Going to sleep...");
       wifi_->disconnect();
-      device_->screen_.sleep();
+      device_->screen_.sleep(true);
 
       // Set BOOT button as wakeup source
       esp_sleep_enable_ext0_wakeup(GPIO_NUM_0, LOW);
