@@ -18,6 +18,7 @@ class StopwatchHandler : public BaseHandler {
 
  protected:
   void event_callback(lv_event_t *event) override;
+  // void event_tile_callback(lv_event_t *event);
   void set_duration_view();
   void set_reset_view();
   void update_duration(uint32_t duration);
