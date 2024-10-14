@@ -20,12 +20,12 @@ lv_obj_t *BaseHandler::init(lv_obj_t *parent, int size_x, int size_y,
   return tileview_;
 }
 
-void BaseHandler::set_status(bool status) { status_ = status; }
-
-void BaseHandler::event_callback(lv_event_t *event) {
-  touched_time_ = lv_tick_get();
-  touched_ = true;
+void BaseHandler::set_status(bool status) {
+  status_ = status;
+  if (status) set_touched();
 }
+
+void BaseHandler::event_callback(lv_event_t *event) { set_touched(); }
 
 lv_obj_t *BaseHandler::add_event_tile(int size_x, int size_y, uint8_t col_id,
                                       uint8_t row_id, lv_dir_t dir,
@@ -43,6 +43,11 @@ lv_obj_t *BaseHandler::add_event_tile(int size_x, int size_y, uint8_t col_id,
   lv_obj_add_style(*button, &style, 0);
 
   return tile;
+}
+
+void BaseHandler::set_touched() {
+  touched_time_ = lv_tick_get();
+  touched_ = true;
 }
 
 void BaseHandler::update_touched_callback() {

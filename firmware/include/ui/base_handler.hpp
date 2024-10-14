@@ -28,6 +28,7 @@ class BaseHandler {
   bool status_ = true;
 
  private:
+  void set_touched();
   void update_touched_callback();
 
   lv_timer_t *touched_timer_;
