@@ -22,7 +22,7 @@ lv_obj_t *StopwatchHandler::init(lv_obj_t *parent, int size_x, int size_y,
   label_time_ = lv_label_create(tile_main);
   lv_label_set_recolor(label_time_, true);
   lv_label_set_text(label_time_, "00:00:00");
-  lv_obj_set_style_text_color(label_time_, lv_color_black(), 0);
+  lv_obj_set_style_text_color(label_time_, color_default_, 0);
   lv_obj_set_style_text_font(label_time_, &open_sans_extra_bold_70, 0);
   lv_obj_center(label_time_);
 
@@ -108,7 +108,10 @@ void StopwatchHandler::set_duration_view() {
   on_reset_ = false;
   update_duration(duration_);
   led_handler_.show();
-  if (state_ == State::PAUSED) led_handler_.blink_on();
+  if (state_ == State::PAUSED) {
+    lv_obj_set_style_text_color(label_time_, color_paused_, 0);
+    led_handler_.blink_on();
+  }
 }
 
 void StopwatchHandler::set_reset_view() {
@@ -117,6 +120,7 @@ void StopwatchHandler::set_reset_view() {
   reset_start_time_ = lv_tick_get();
   if (state_ == State::PAUSED) led_handler_.blink_off();
   led_handler_.hide();
+  lv_obj_set_style_text_color(label_time_, color_default_, 0);
   lv_label_set_text_fmt(label_time_, "Reset");
 }
 
@@ -136,6 +140,7 @@ void StopwatchHandler::send_state_msg(State state) {
 void StopwatchHandler::start() {
   last_update_time_ = millis();
   state_ = State::STARTED;
+  lv_obj_set_style_text_color(label_time_, color_default_, 0);
   led_handler_.blink_off();
   led_handler_.on();
   send_state_msg(State::STARTED);
@@ -145,6 +150,7 @@ void StopwatchHandler::start() {
 void StopwatchHandler::pause() {
   if (state_ != State::STARTED) return;
   state_ = State::PAUSED;
+  lv_obj_set_style_text_color(label_time_, color_paused_, 0);
   led_handler_.blink_on();
   send_state_msg(State::PAUSED);
   Serial.println("Paused");
@@ -156,6 +162,7 @@ void StopwatchHandler::reset() {
   led_handler_.off();
   state_ = State::STOPPED;
   on_reset_ = false;
+  lv_obj_set_style_text_color(label_time_, color_default_, 0);
   update_duration(duration_ = 0);
   send_state_msg(State::STOPPED);
   Serial.println("Reset");

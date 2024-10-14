@@ -26,6 +26,9 @@ class StopwatchHandler : public BaseHandler {
   void pause();
   void reset();
 
+  const lv_color_t color_default_ = lv_color_make(0x00, 0x00, 0x00);
+  const lv_color_t color_paused_ = lv_color_make(0x45, 0x45, 0x45);
+
   uint8_t state_msg_id_;
   uint8_t state_msg_payload_;
   uint8_t sub_states_;
