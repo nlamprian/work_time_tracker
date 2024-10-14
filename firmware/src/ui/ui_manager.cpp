@@ -33,6 +33,9 @@ void UiManager::init() {
   };
   lv_msg_subscribe(MSG_SNTP_SYNC, callback, this);
 
+  device_.set_screen_status_callback(
+      [this](bool status) { screen_status_callback(status); });
+
   Serial.println("UI is ready");
 }
 
@@ -62,4 +65,10 @@ void UiManager::update_callback() {
     force = false;
   }
   last_touched_ = touched;
+}
+
+void UiManager::screen_status_callback(bool status) {
+  datetime_.set_status(status);
+  sw_total_.set_status(status);
+  sw_task_.set_status(status);
 }

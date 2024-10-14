@@ -13,6 +13,8 @@ class DeviceHandler {
   friend class DeviceButtonEventHandler;
 
  public:
+  using ScreenStatusCallbackType = std::function<void(bool)>;
+
   ~DeviceHandler();
   inline LilyGo_Class &get_screen() { return screen_; }
   void init(WiFiHandler *wifi);
@@ -20,10 +22,11 @@ class DeviceHandler {
   void set_brightness(bool active);
   inline bool is_screen_on() { return is_screen_on_; }
   inline bool in_sleep_mode() { return in_sleep_mode_; }
+  void set_screen_status_callback(const ScreenStatusCallbackType &callback);
 
  protected:
   void button_check_task();
-  
+
   LilyGo_Class screen_;
 
   AceButton *buttons_ = nullptr;
@@ -31,6 +34,8 @@ class DeviceHandler {
 
   bool is_screen_on_ = true;
   volatile bool in_sleep_mode_ = false;
+
+  ScreenStatusCallbackType screen_status_callback_ = nullptr;
 };
 
 class DeviceButtonEventHandler : public IEventHandler {

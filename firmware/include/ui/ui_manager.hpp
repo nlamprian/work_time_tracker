@@ -17,6 +17,7 @@ class UiManager {
    */
   void sntp_sync_callback();
   void update_callback();
+  void screen_status_callback(bool status);
 
   DeviceHandler &device_;
   bool last_touched_ = true;

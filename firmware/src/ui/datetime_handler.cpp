@@ -93,3 +93,8 @@ void DatetimeHandler::update() {
   lv_label_set_text_fmt(label_time_, "%02d:%02d:%02d", timeinfo.tm_hour,
                         timeinfo.tm_min, timeinfo.tm_sec);
 }
+
+void DatetimeHandler::event_callback(lv_event_t *event) {
+  if (!status_) return;
+  BaseHandler::event_callback(event);
+}

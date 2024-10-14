@@ -50,12 +50,18 @@ void DeviceHandler::toggle_screen() {
   is_screen_on_ = !is_screen_on_;
   Serial.printf("Setting screen %s\n", is_screen_on_ ? "on" : "off");
   screen_.setBrightness(is_screen_on_ ? SCREEN_BRIGHTNESS_ACTIVE : 0);
+  if (screen_status_callback_) screen_status_callback_(is_screen_on_);
 }
 
 void DeviceHandler::set_brightness(bool active) {
   Serial.printf("Setting brightness to %s\n", active ? "ACTIVE" : "IDLE");
   screen_.setBrightness(active ? SCREEN_BRIGHTNESS_ACTIVE
                                : SCREEN_BRIGHTNESS_IDLE);
+}
+
+void DeviceHandler::set_screen_status_callback(
+    const DeviceHandler::ScreenStatusCallbackType &callback) {
+  screen_status_callback_ = callback;
 }
 
 void DeviceHandler::button_check_task() {

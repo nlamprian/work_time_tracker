@@ -12,6 +12,8 @@ class DatetimeHandler : public BaseHandler {
   void update() override;
 
  protected:
+  void event_callback(lv_event_t *event) override;
+
   lv_obj_t *label_day_;
   lv_obj_t *label_weekday_;
   lv_obj_t *label_month_;

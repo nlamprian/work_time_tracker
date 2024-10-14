@@ -9,11 +9,12 @@ class BaseHandler {
   virtual lv_obj_t *init(lv_obj_t *parent, int size_x, int size_y,
                          lv_color_t bg_color);
   inline bool touched() const { return touched_; }
+  virtual void set_status(bool status);
   virtual void update() = 0;
 
  protected:
   virtual void event_callback(lv_event_t *event);
-  
+
   /**
    * @brief Adds an eventful tile.
    * @details Adds a tile with a transparent button that covers the whole tile
@@ -23,6 +24,8 @@ class BaseHandler {
                            uint8_t row_id, lv_dir_t dir, lv_obj_t **button);
 
   lv_obj_t *tileview_;
+
+  bool status_ = true;
 
  private:
   void update_touched_callback();

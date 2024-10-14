@@ -6,7 +6,7 @@ lv_obj_t *BaseHandler::init(lv_obj_t *parent, int size_x, int size_y,
   lv_obj_set_size(tileview_, LV_PCT(size_x), LV_PCT(size_y));
   lv_obj_set_style_bg_color(tileview_, bg_color, 0);
   lv_obj_set_scrollbar_mode(tileview_, LV_SCROLLBAR_MODE_OFF);
-  
+
   // auto callback = [](lv_event_t *event) {
   //   static_cast<BaseHandler *>(event->user_data)->event_callback(event);
   // };
@@ -19,6 +19,8 @@ lv_obj_t *BaseHandler::init(lv_obj_t *parent, int size_x, int size_y,
 
   return tileview_;
 }
+
+void BaseHandler::set_status(bool status) { status_ = status; }
 
 void BaseHandler::event_callback(lv_event_t *event) {
   touched_time_ = lv_tick_get();

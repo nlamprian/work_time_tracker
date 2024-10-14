@@ -61,6 +61,7 @@ void StopwatchHandler::update() {
 }
 
 void StopwatchHandler::event_callback(lv_event_t *event) {
+  if (!status_) return;
   BaseHandler::event_callback(event);
 
   lv_event_code_t code = lv_event_get_code(event);
